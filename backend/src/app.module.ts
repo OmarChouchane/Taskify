@@ -5,8 +5,12 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserModule } from "./user/user.module";
 import { AuthModule } from "./auth/auth.module";
 import { BoardModule } from "./board/board.module";
+import { SwimlaneModule } from "./swimlane/swimlane.module";
+import { CardModule } from "./card/card.module";
 import { User } from "./user/entities/user.entity";
 import { Board } from "./board/entities/board.entity";
+import { Swimlane } from "./swimlane/entities/swimlane.entity";
+import { Card } from "./card/entities/card.entity";
 import { AuthGuard } from "./auth/auth/auth.guard";
 
 @Module({
@@ -14,10 +18,12 @@ import { AuthGuard } from "./auth/auth/auth.guard";
     UserModule,
     AuthModule,
     BoardModule,
+    SwimlaneModule,
+    CardModule,
     TypeOrmModule.forRoot({
       type: "sqlite",
       database: "kanban.db",
-      entities: [User, Board],
+      entities: [User, Board, Swimlane, Card],
       synchronize: true,
     }),
   ],
