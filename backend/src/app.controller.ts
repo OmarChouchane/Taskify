@@ -1,33 +1,12 @@
-import { Module } from "@nestjs/common";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { UserModule } from "./user/user.module";
-import { AuthModule } from "./auth/auth.module";
-import { BoardModule } from "./board/board.module";
-import { SwimlaneModule } from "./swimlane/swimlane.module";
-import { CardModule } from "./card/card.module";
-import { User } from "./user/entities/user.entity";
-import { Board } from "./board/entities/board.entity";
-import { Swimlane } from "./swimlane/entities/swimlane.entity";
-import { Card } from "./card/entities/card.entity";
-import { AuthGuard } from "./auth/auth/auth.guard";
+import { Controller, Get } from '@nestjs/common';
+import { AppService } from './app.service';
 
-@Module({
-  imports: [
-    UserModule,
-    AuthModule,
-    BoardModule,
-    SwimlaneModule,
-    CardModule,
-    TypeOrmModule.forRoot({
-      type: "sqlite",
-      database: "kanban.db",
-      entities: [User, Board, Swimlane, Card],
-      synchronize: true,
-    }),
-  ],
-  controllers: [AppController],
-  providers: [AppService, AuthGuard],
-})
-export class AppModule {}
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Get()
+  getHello(): string {
+    return this.appService.getHello();
+  }
+}
