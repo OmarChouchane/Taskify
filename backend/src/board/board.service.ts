@@ -40,7 +40,15 @@ export class BoardService {
   async findOne(id: number) {
     const board = await this.boardRepository.findOne({
       where: { id },
-      relations: ["users"],
+      relations: ["users", "swimlanes", "swimlanes.cards"],
+      order: {
+        swimlanes: {
+          order: "ASC",
+          cards: {
+            order: "ASC",
+          },
+        },
+      },
     });
 
     if (!board) {
