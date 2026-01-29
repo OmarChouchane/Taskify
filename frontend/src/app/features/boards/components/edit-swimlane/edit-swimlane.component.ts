@@ -63,6 +63,8 @@ export class EditSwimlaneComponent {
           title: 'Delete Swimlane',
           message: 'Are you sure you want to delete this swimlane?',
         },
+        autoFocus: 'first-tabbable',
+        restoreFocus: true,
       })
       .afterClosed()
       .pipe(

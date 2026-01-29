@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { BoardService } from '../../../shared/services/board.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -22,7 +22,6 @@ import { ICard, ISwimlane } from '../../../shared/models/board.model';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddCardComponent } from '../components/add-card/add-card.component';
 import { CardService } from '../../../shared/services/card.service';
-import { ConfirmComponent } from '../../../shared/ui/confirm/confirm.component';
 import { EditSwimlaneComponent } from '../components/edit-swimlane/edit-swimlane.component';
 
 @Component({
@@ -69,7 +68,7 @@ export class DetailComponent implements OnInit {
 
   editSwimlane(swimlane: ISwimlane) {
     this.matDialog
-      .open(EditSwimlaneComponent, { width: '600px', data: { swimlane } })
+      .open(EditSwimlaneComponent, { width: '600px', data: { swimlane }, autoFocus: 'first-tabbable', restoreFocus: true })
       .afterClosed()
       .subscribe(() => this.refetch$.next());
   }
@@ -133,7 +132,6 @@ export class DetailComponent implements OnInit {
       .subscribe(() => {
         this.refetch$.next();
       });
-    console.log(this.board()?.swimlanes);
   }
 
   addOrEditCard(swimlane: ISwimlane, card?: ICard) {
@@ -145,6 +143,8 @@ export class DetailComponent implements OnInit {
           boardId: swimlane.boardId,
           card,
         },
+        autoFocus: 'first-tabbable',
+        restoreFocus: true,
       })
       .afterClosed()
       .subscribe((card?: ICard) => {

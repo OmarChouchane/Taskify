@@ -80,6 +80,8 @@ export class AddCardComponent {
           title: 'Delete Card',
           message: 'Are you sure you want to delete this card?',
         },
+        autoFocus: 'first-tabbable',
+        restoreFocus: true,
       })
       .afterClosed()
       .pipe(

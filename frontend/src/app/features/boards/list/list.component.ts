@@ -35,7 +35,7 @@ export class ListComponent implements OnInit {
     $event.stopImmediatePropagation();
     $event.preventDefault();
     this.dialog
-      .open(AddBoardComponent, { width: '400px', data: { board } })
+      .open(AddBoardComponent, { width: '400px', data: { board }, autoFocus: 'first-tabbable', restoreFocus: true })
       .afterClosed()
       .subscribe((board: IBoard) => {
         board && this.refetch$.next();
@@ -51,6 +51,8 @@ export class ListComponent implements OnInit {
           title: 'Delete Board',
           message: 'Are you sure you want to delete this board?',
         },
+        autoFocus: 'first-tabbable',
+        restoreFocus: true,
       })
       .afterClosed()
       .pipe(
