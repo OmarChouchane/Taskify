@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthGuard, PayloadRequest } from 'src/auth/auth/auth.guard';
+import { AuthGuard, PayloadRequest } from '@auth/auth/auth.guard';
 
 @Controller('user')
 export class UserController {

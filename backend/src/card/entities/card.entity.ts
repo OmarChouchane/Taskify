@@ -1,5 +1,5 @@
-import { Swimlane } from 'src/swimlane/entities/swimlane.entity';
-import { User } from 'src/user/entities/user.entity';
+import { Swimlane } from '@swimlane/entities/swimlane.entity';
+import { User } from '@user/entities/user.entity';
 import {
   Column,
   Entity,

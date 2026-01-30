@@ -13,7 +13,7 @@ import {
 import { SwimlaneService } from './swimlane.service';
 import { CreateSwimlaneDto } from './dto/create-swimlane.dto';
 import { UpdateSwimlaneDto } from './dto/update-swimlane.dto';
-import { AuthGuard, PayloadRequest } from 'src/auth/auth/auth.guard';
+import { AuthGuard, PayloadRequest } from '@auth/auth/auth.guard';
 import { ReordereSwimlaneDto } from './dto/reorder-swimlane.dto';
 
 @Controller('swimlane')

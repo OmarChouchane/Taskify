@@ -72,6 +72,14 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1",
+      "^@user/(.*)$": "<rootDir>/user/$1",
+      "^@board/(.*)$": "<rootDir>/board/$1",
+      "^@card/(.*)$": "<rootDir>/card/$1",
+      "^@auth/(.*)$": "<rootDir>/auth/$1",
+      "^@swimlane/(.*)$": "<rootDir>/swimlane/$1"
+    }
   }
 }

@@ -4,8 +4,8 @@ import { UpdateCardDto } from './dto/update-card.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Card } from './entities/card.entity';
 import { Repository } from 'typeorm';
-import { SwimlaneService } from 'src/swimlane/swimlane.service';
-import { UserService } from 'src/user/user.service';
+import { SwimlaneService } from '@swimlane/swimlane.service';
+import { UserService } from '@user/user.service';
 import { ReorderedCardDto } from './dto/reorder-cards.dto';
 
 @Injectable()

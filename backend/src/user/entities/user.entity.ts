@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Board } from 'src/board/entities/board.entity';
-import { Card } from 'src/card/entities/card.entity';
+import { Board } from '@board/entities/board.entity';
+import { Card } from '@card/entities/card.entity';
 
 @Entity()
 export class User {
@@ -19,7 +19,7 @@ export class User {
   @Column({ length: 100 })
   firstName: string;
 
-  @Column({ length: 100 })
+  @Column({ length: 100 , unique: true})
   lastName: string;
 
   @Column({ length: 100 })

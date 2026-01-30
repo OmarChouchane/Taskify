@@ -10,6 +10,14 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@user/*": ["src/user/*"],
+      "@board/*": ["src/board/*"],
+      "@card/*": ["src/card/*"],
+      "@auth/*": ["src/auth/*"],
+      "@swimlane/*": ["src/swimlane/*"]
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
