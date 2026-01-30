@@ -36,4 +36,7 @@ export class BoardService {
   getBoards(): Observable<IBoard[]> {
     return this.http.get<IBoard[]>('/api/board');
   }
+  getMyRole(boardId: number): Observable<string | null> {
+    return this.http.get<string | null>(`/api/board/${boardId}/my-role`);
+  }
 }

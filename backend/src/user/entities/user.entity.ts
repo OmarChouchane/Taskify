@@ -1,15 +1,14 @@
 import {
-  BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import * as bcrypt from 'bcrypt';
-import { Board } from '@board/entities/board.entity';
 import { Card } from '@card/entities/card.entity';
+import { OrganizationMember } from '@organization/entities/organization-member.entity';
+import { Invitation } from '@invitation/entities/invitation.entity';
+import { BoardHistory } from '@board/entities/board-history.entity';
 
 @Entity()
 export class User {
@@ -19,10 +18,10 @@ export class User {
   @Column({ length: 100 })
   firstName: string;
 
-  @Column({ length: 100 , unique: true})
+  @Column({ length: 100 })
   lastName: string;
 
-  @Column({ length: 100 })
+  @Column({ length: 100, unique: true })
   email: string;
 
   @Column({ length: 200 })
@@ -31,17 +30,18 @@ export class User {
   @Column({ default: false })
   emailVerified: boolean;
 
-  @ManyToMany(() => Board, (board) => board.users)
-  @JoinTable()
-  boards: Board[];
+  @CreateDateColumn()
+  createdAt: Date;
 
-  @OneToMany(() => Card, (user) => user.assigne)
+  @OneToMany(() => OrganizationMember, (member) => member.user)
+  organizationMemberships: OrganizationMember[];
+
+  @OneToMany(() => Card, (card) => card.assigne)
   cards: Card[];
 
-  @BeforeInsert()
-  async hashPassword() {
-    if (this.password) {
-      this.password = await bcrypt.hash(this.password, 10);
-    }
-  }
+  @OneToMany(() => Invitation, (invitation) => invitation.invitedBy)
+  invitationsSent: Invitation[];
+
+  @OneToMany(() => BoardHistory, (history) => history.user)
+  boardHistories: BoardHistory[];
 }

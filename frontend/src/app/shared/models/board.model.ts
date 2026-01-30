@@ -1,14 +1,21 @@
 import { IUser } from './user.model';
 
+export interface IBoardOrganization {
+  id: number;
+  name: string;
+}
+
 export interface IBoard {
   id: number;
   name: string;
   users?: IUser[];
   swimlanes?: ISwimlane[];
+  organization?: IBoardOrganization;
 }
 
 export interface ICreateBoard {
   name: string;
+  organizationId: number;
 }
 export interface IUpdateSwimlane {
   id: number;

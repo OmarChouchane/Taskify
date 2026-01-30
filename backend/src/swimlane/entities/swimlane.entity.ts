@@ -3,7 +3,6 @@ import { Card } from '@card/entities/card.entity';
 import {
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -20,11 +19,7 @@ export class Swimlane {
   @Column()
   order: number;
 
-  @Column()
-  boardId: number;
-
   @ManyToOne(() => Board, (board) => board.swimlanes)
-  @JoinColumn()
   board: Board;
 
   @OneToMany(() => Card, (card) => card.swimlane)

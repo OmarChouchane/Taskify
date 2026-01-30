@@ -1,14 +1,30 @@
+<!-- Breadcrumb Navigation -->
+<nav class="board-breadcrumb">
+  <a routerLink="/organizations">Organizations</a>
+  @if (board()?.organization) {
+    <span class="separator">/</span>
+    <a [routerLink]="['/organizations', board()?.organization?.id]">{{ board()?.organization?.name }}</a>
+  }
+  <span class="separator">/</span>
+  <span class="current">{{ board()?.name }}</span>
+</nav>
+
 <div class="kb-board-header">
   <button
     mat-mini-fab
-    [routerLink]="['/boards']"
+    [routerLink]="board()?.organization ? ['/organizations', board()?.organization?.id] : ['/organizations']"
     color="secondary"
-    aria-label="Back to boards"
+    aria-label="Back"
   >
     <mat-icon>chevron_left</mat-icon>
   </button>
 
-  <h1 class="kb-board-title">{{ board()?.name }}</h1>
+  <div class="board-title-section">
+    <h1 class="kb-board-title">{{ board()?.name }}</h1>
+    @if (board()?.organization) {
+      <span class="org-tag">{{ board()?.organization?.name }}</span>
+    }
+  </div>
 </div>
 
 <!-- Lists should come from swimlanes for the board -->
@@ -17,22 +33,25 @@
   cdkDropListGroup
   cdkDropList
   cdkDropListOrientation="horizontal"
+  [cdkDropListDisabled]="!canEdit()"
   (cdkDropListDropped)="onSwimlaneChange($event)"
   class="swimlanes-wrapper"
 >
   @for(swimlane of board()?.swimlanes; track swimlane) {
-  <div class="swimlane" cdkDrag>
-    <div class="swimlane-header" cdkDragHandle>
+  <div class="swimlane" [class.draggable]="canEdit()" [cdkDragDisabled]="!canEdit()" cdkDrag>
+    <div class="swimlane-header" [class.drag-handle]="canEdit()" cdkDragHandle>
       <h2>{{ swimlane.name }}</h2>
-      <div>
-        <button
-          color="secondary"
-          mat-stroked-button
-          (click)="editSwimlane(swimlane)"
-        >
-          Edit
-        </button>
-      </div>
+      @if (canEdit()) {
+        <div>
+          <button
+            color="secondary"
+            mat-stroked-button
+            (click)="editSwimlane(swimlane)"
+          >
+            Edit
+          </button>
+        </div>
+      }
     </div>
 
     <div class="swimlane-inner">
@@ -41,38 +60,45 @@
         cdkDropList
         cdkDropListOrientation="vertical"
         [cdkDropListData]="swimlane.cards"
+        [cdkDropListDisabled]="!canEdit()"
         (cdkDropListDropped)="onCardChange($event, swimlane)"
       >
         @for(card of swimlane.cards; track card) {
-        <button
+        <div
           class="swimlane__card"
-          (click)="addOrEditCard(swimlane, card)"
+          (click)="canEdit() ? addOrEditCard(swimlane, card) : null"
+          [class.clickable]="canEdit()"
+          [cdkDragDisabled]="!canEdit()"
           cdkDrag
         >
           {{ card.name }}
-        </button>
+        </div>
         }
       </div>
     </div>
-    <button (click)="addOrEditCard(swimlane)" mat-button>Add card</button>
+    @if (canEdit()) {
+      <button (click)="addOrEditCard(swimlane)" mat-button>Add card</button>
+    }
   </div>
   }
-  <div class="swimlane">
-    <h2>New swimlane</h2>
-    <div class="swimlane-inner">
-      <form [formGroup]="swimlaneForm">
-        <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name" placeholder="Ex. Todo" />
+  @if (canEdit()) {
+    <div class="swimlane">
+      <h2>New swimlane</h2>
+      <div class="swimlane-inner">
+        <form [formGroup]="swimlaneForm">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" placeholder="Ex. Todo" />
 
-          @if (swimlaneForm.controls.name.hasError('required')) {
-          <mat-error>Name is required</mat-error>
-          } </mat-form-field
-        ><br />
-        <button type="button" (click)="addSwimlane()" color="primary" mat-flat-button>
-          Add swimlane
-        </button>
-      </form>
+            @if (swimlaneForm.controls.name.hasError('required')) {
+            <mat-error>Name is required</mat-error>
+            } </mat-form-field
+          ><br />
+          <button type="button" (click)="addSwimlane()" color="primary" mat-flat-button>
+            Add swimlane
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
+  }
 </div>

@@ -3,6 +3,12 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICard } from '../models/board.model';
 
+interface IReorderCardItem {
+  id: number;
+  order: number;
+  swimlaneId: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,9 +19,15 @@ export class CardService {
     boardId: number,
     cards: ICard[]
   ): Observable<ICard[]> {
+    // Only send required fields to avoid validation errors
+    const reorderCards: IReorderCardItem[] = cards.map((c) => ({
+      id: c.id,
+      order: c.order,
+      swimlaneId: c.swimlaneId,
+    }));
     return this.http.put<ICard[]>('/api/card/update-order', {
       boardId,
-      cards,
+      cards: reorderCards,
     });
   }
   createCard(createCard: Partial<ICard>): Observable<ICard> {

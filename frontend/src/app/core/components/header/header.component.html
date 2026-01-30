@@ -1,12 +1,17 @@
 <nav>
   <ul>
-    <li>Logotype</li>
+    <li class="logo">
+      <a routerLink="/">Taskify</a>
+    </li>
     <li class="menu-items">
       @if(isLoggedIn()){
-      <a [routerLinkActive]="'active'" routerLink="/boards">Boards</a>
-      <a (click)="signOut()">Sign out</a>
+        <a [routerLinkActive]="'active'" routerLink="/boards">Boards</a>
+        <a [routerLinkActive]="'active'" routerLink="/organizations">Organizations</a>
+        <a [routerLinkActive]="'active'" routerLink="/profile">Profile</a>
+        <a class="sign-out" (click)="signOut()">Sign out</a>
       } @else {
-      <a [routerLinkActive]="'active'" routerLink="/login">Login/Register</a>
+        <a [routerLinkActive]="'active'" routerLink="/login">Login</a>
+        <a [routerLinkActive]="'active'" routerLink="/register" class="btn-register">Register</a>
       }
     </li>
   </ul>

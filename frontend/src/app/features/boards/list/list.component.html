@@ -1,11 +1,15 @@
 <h1>My boards</h1>
+<p class="info-text">Boards are now organized within organizations. <a routerLink="/organizations">View your organizations</a></p>
 <!-- Boards -->
 <div class="board-wrapper">
   @for (board of boards(); track board) {
-  <a class="board" [routerLink]="['/boards', board.id]">
+  <a class="board" [routerLink]="board.organization ? ['/organizations', board.organization.id, 'boards', board.id] : ['/organizations']">
     <mat-card>
       <mat-card-header>
         <mat-card-title>{{ board.name }}</mat-card-title>
+        @if (board.organization) {
+          <mat-card-subtitle>{{ board.organization.name }}</mat-card-subtitle>
+        }
       </mat-card-header>
       <mat-card-actions>
         <button (click)="openNewBoardFlow($event, board)" mat-button>
@@ -18,6 +22,4 @@
   }
 </div>
 
-<button (click)="openNewBoardFlow($event)" mat-flat-button color="primary">
-  Add a board
-</button>
+<p class="info-text">To create new boards, go to an <a routerLink="/organizations">organization</a>.</p>

@@ -37,11 +37,10 @@ export class AddCardComponent {
   data = inject(MAT_DIALOG_DATA);
 
   addCardForm = this.fb.group({
-    order: this.fb.control(this.data.swimlane.cards.length),
-    boardId: this.fb.control(this.data.boardId),
+    order: this.fb.control(this.data.swimlane.cards?.length ?? 0),
     swimlaneId: this.fb.control(this.data.swimlane.id),
-    name: this.fb.control(this.data.card?.name, [Validators.required]),
-    content: this.fb.control(this.data.card?.content, [Validators.required]),
+    name: this.fb.control(this.data.card?.name ?? '', [Validators.required]),
+    content: this.fb.control(this.data.card?.content ?? '', [Validators.required]),
   });
 
   createOrEditCard() {

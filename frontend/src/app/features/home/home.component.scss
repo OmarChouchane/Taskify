@@ -1,0 +1,326 @@
+@use "variables" as v;
+
+.home {
+  min-height: calc(100vh - 56px);
+  background: v.$background-secondary;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space-9;
+  padding: v.$space-10 v.$space-5;
+  max-width: 1280px;
+  margin: 0 auto;
+  align-items: center;
+  min-height: 70vh;
+
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: v.$space-8 v.$space-5;
+    gap: v.$space-6;
+  }
+}
+
+.hero-content {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.hero-title {
+  font-size: v.$font-size-4xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$text-primary;
+  line-height: v.$line-height-tight;
+  margin-bottom: v.$space-4;
+
+  .title-line {
+    display: block;
+  }
+
+  .highlight {
+    color: v.$primary;
+  }
+
+  @media (max-width: 768px) {
+    font-size: v.$font-size-3xl;
+  }
+}
+
+.hero-subtitle {
+  font-size: v.$font-size-lg;
+  color: v.$text-secondary;
+  line-height: v.$line-height-relaxed;
+  margin-bottom: v.$space-6;
+  max-width: 500px;
+
+  @media (max-width: 968px) {
+    margin: 0 auto v.$space-6;
+  }
+}
+
+.hero-actions {
+  display: flex;
+  gap: v.$space-3;
+
+  @media (max-width: 968px) {
+    justify-content: center;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+
+  .btn-hero-primary {
+    background: v.$primary;
+    color: v.$text-inverse;
+    padding: v.$space-3 v.$space-5;
+    border-radius: v.$radius-md;
+    font-size: v.$font-size-md;
+    font-weight: v.$font-weight-medium;
+    text-decoration: none;
+    transition: all v.$transition-normal;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background: v.$primary-dark;
+      text-decoration: none;
+    }
+  }
+
+  .btn-hero-secondary {
+    background: v.$background-primary;
+    color: v.$text-primary;
+    padding: v.$space-3 v.$space-5;
+    border-radius: v.$radius-md;
+    font-size: v.$font-size-md;
+    font-weight: v.$font-weight-medium;
+    text-decoration: none;
+    transition: all v.$transition-normal;
+    border: 1px solid v.$border-default;
+    cursor: pointer;
+
+    &:hover {
+      border-color: v.$border-emphasis;
+      background: v.$background-secondary;
+      text-decoration: none;
+    }
+  }
+}
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 968px) {
+    display: none;
+  }
+}
+
+.floating-cards {
+  position: relative;
+  width: 350px;
+  height: 350px;
+}
+
+.card-preview {
+  position: absolute;
+  width: 200px;
+  background: v.$background-primary;
+  border: 1px solid v.$border-default;
+  border-radius: v.$radius-md;
+  padding: v.$space-4;
+  box-shadow: v.$shadow-lg;
+
+  .card-header {
+    height: 8px;
+    background: v.$primary;
+    border-radius: v.$radius-sm;
+    margin-bottom: v.$space-3;
+  }
+
+  .card-lines {
+    .line {
+      height: 8px;
+      background: v.$gray-100;
+      border-radius: v.$radius-sm;
+      margin-bottom: v.$space-2;
+
+      &.short {
+        width: 60%;
+      }
+    }
+  }
+
+  &.card-1 {
+    top: 0;
+    left: 0;
+    animation: float1 6s ease-in-out infinite;
+  }
+
+  &.card-2 {
+    top: 70px;
+    left: 120px;
+    animation: float2 6s ease-in-out infinite;
+    animation-delay: -2s;
+  }
+
+  &.card-3 {
+    top: 180px;
+    left: 40px;
+    animation: float3 6s ease-in-out infinite;
+    animation-delay: -4s;
+  }
+}
+
+@keyframes float1 {
+  0%, 100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(-1deg);
+  }
+}
+
+@keyframes float2 {
+  0%, 100% {
+    transform: translateY(0) rotate(3deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+@keyframes float3 {
+  0%, 100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(1deg);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.features {
+  background: v.$background-primary;
+  padding: v.$space-10 v.$space-5;
+  border-top: 1px solid v.$border-default;
+
+  @media (max-width: 768px) {
+    padding: v.$space-8 v.$space-4;
+  }
+}
+
+.section-title {
+  text-align: center;
+  font-size: v.$font-size-2xl;
+  color: v.$text-primary;
+  margin-bottom: v.$space-8;
+  font-weight: v.$font-weight-semibold;
+
+  @media (max-width: 768px) {
+    font-size: v.$font-size-xl;
+  }
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: v.$space-5;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: v.$background-secondary;
+  padding: v.$space-5;
+  border-radius: v.$radius-md;
+  border: 1px solid v.$border-default;
+  text-align: center;
+  transition: all v.$transition-normal;
+
+  &:hover {
+    border-color: v.$primary;
+    box-shadow: v.$shadow-md;
+  }
+
+  .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: v.$space-3;
+  }
+
+  h3 {
+    font-size: v.$font-size-md;
+    color: v.$text-primary;
+    margin-bottom: v.$space-2;
+    font-weight: v.$font-weight-semibold;
+  }
+
+  p {
+    color: v.$text-secondary;
+    line-height: v.$line-height-normal;
+    font-size: v.$font-size-sm;
+    margin: 0;
+  }
+}
+
+.cta {
+  background: v.$gray-900;
+  padding: v.$space-10 v.$space-5;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    padding: v.$space-8 v.$space-4;
+  }
+}
+
+.cta-content {
+  max-width: 600px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: v.$font-size-2xl;
+    color: v.$text-inverse;
+    margin-bottom: v.$space-3;
+    font-weight: v.$font-weight-semibold;
+
+    @media (max-width: 768px) {
+      font-size: v.$font-size-xl;
+    }
+  }
+
+  p {
+    color: v.$gray-400;
+    font-size: v.$font-size-md;
+    margin-bottom: v.$space-5;
+  }
+
+  .btn-cta {
+    background: v.$primary;
+    color: v.$text-inverse;
+    padding: v.$space-3 v.$space-6;
+    border-radius: v.$radius-md;
+    font-size: v.$font-size-md;
+    font-weight: v.$font-weight-medium;
+    text-decoration: none;
+    display: inline-block;
+    transition: all v.$transition-normal;
+
+    &:hover {
+      background: v.$primary-dark;
+      text-decoration: none;
+    }
+  }
+}

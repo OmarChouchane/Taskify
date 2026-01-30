@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../../shared/services/user.service';
-import { ILoginReponse, IRegister } from '../../../shared/models/user.model';
+import { IRegister } from '../../../shared/models/user.model';
 import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
@@ -38,11 +38,9 @@ export class RegisterComponent {
       return;
     }
 
-    this.userService
-      .register(this.registerForm.value as IRegister)
-      .subscribe((token: ILoginReponse) => {
-        this.authService.token = token.accessToken;
-        this.router.navigateByUrl('/boards');
-      });
+    this.userService.register(this.registerForm.value as IRegister).subscribe(() => {
+      this.authService.setAuthenticated(true);
+      this.router.navigateByUrl('/boards');
+    });
   }
 }

@@ -48,8 +48,15 @@ export class AddBoardComponent {
   }
 
   private _createBoard() {
+    if (!this.data.organizationId) {
+      console.error('organizationId is required to create a board');
+      return;
+    }
     this.boardService
-      .createBoard(this.addBoardForm.value as ICreateBoard)
+      .createBoard({
+        name: this.addBoardForm.value.name as string,
+        organizationId: this.data.organizationId,
+      })
       .subscribe((board: IBoard) => {
         this.dialogRef.close(board);
       });

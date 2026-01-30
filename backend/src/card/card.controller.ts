@@ -13,20 +13,24 @@ import { CardService } from './card.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
 import { AuthGuard, PayloadRequest } from '@auth/auth/auth.guard';
+import { RolesGuard } from '@auth/guards/roles.guard';
+import { Roles } from '@auth/decorators/roles.decorator';
+import { Role } from '@common/common.module';
 import { ReorderedCardDto } from './dto/reorder-cards.dto';
 
 @Controller('card')
+@UseGuards(AuthGuard, RolesGuard)
 export class CardController {
   constructor(private readonly cardService: CardService) {}
 
   @Post()
-  @UseGuards(AuthGuard)
+  @Roles(Role.EDITOR)
   create(@Body() createCardDto: CreateCardDto, @Request() req: PayloadRequest) {
     return this.cardService.create(createCardDto, req.user.id);
   }
 
   @Put('update-order')
-  @UseGuards(AuthGuard)
+  @Roles(Role.EDITOR)
   updateOrder(
     @Body() reorderCards: ReorderedCardDto,
     @Request() req: PayloadRequest,
@@ -38,7 +42,7 @@ export class CardController {
   }
 
   @Patch(':id')
-  @UseGuards(AuthGuard)
+  @Roles(Role.EDITOR)
   update(
     @Param('id') id: string,
     @Request() req: PayloadRequest,
@@ -48,7 +52,7 @@ export class CardController {
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard)
+  @Roles(Role.ADMIN)
   remove(@Param('id') id: string, @Request() req: PayloadRequest) {
     return this.cardService.remove(+id, req.user.id);
   }

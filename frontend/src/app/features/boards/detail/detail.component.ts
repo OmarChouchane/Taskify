@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { BoardService } from '../../../shared/services/board.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -24,6 +24,8 @@ import { AddCardComponent } from '../components/add-card/add-card.component';
 import { CardService } from '../../../shared/services/card.service';
 import { EditSwimlaneComponent } from '../components/edit-swimlane/edit-swimlane.component';
 
+type BoardRole = 'admin' | 'editor' | 'viewer' | null;
+
 @Component({
   selector: 'app-detail',
   standalone: true,
@@ -46,14 +48,29 @@ export class DetailComponent implements OnInit {
   private readonly cardService = inject(CardService);
   private readonly activatedRoute = inject(ActivatedRoute);
   refetch$ = new Subject<void>();
+
+  // User's role on this board
+  myRole = signal<BoardRole>(null);
+  canEdit = computed(() => this.myRole() === 'admin' || this.myRole() === 'editor');
+  canAdmin = computed(() => this.myRole() === 'admin');
+
+  // Support both /boards/:id and /organizations/:orgId/boards/:boardId routes
+  get boardId(): number {
+    const id = this.activatedRoute.snapshot.params['boardId'] || this.activatedRoute.snapshot.params['id'];
+    return +id;
+  }
+
+  get orgId(): number | null {
+    const id = this.activatedRoute.snapshot.params['orgId'];
+    return id ? +id : null;
+  }
+
   board = toSignal(
     this.refetch$
       .asObservable()
       .pipe(
         switchMap(() =>
-          this.boardService.getBoardById(
-            this.activatedRoute.snapshot.params['id']
-          )
+          this.boardService.getBoardById(this.boardId)
         )
       )
   );
@@ -64,6 +81,14 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.refetch$.next();
+    this.loadMyRole();
+  }
+
+  private loadMyRole(): void {
+    this.boardService.getMyRole(this.boardId).subscribe({
+      next: (role) => this.myRole.set(role as BoardRole),
+      error: () => this.myRole.set(null),
+    });
   }
 
   editSwimlane(swimlane: ISwimlane) {

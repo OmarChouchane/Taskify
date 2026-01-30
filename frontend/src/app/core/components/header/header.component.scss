@@ -1,12 +1,14 @@
-@use "variables.scss" as v;
-@use "typography.scss" as t;
+@use "variables" as v;
 
 nav {
-  background-color: white;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  height: 60px;
-  line-height: 60px;
-  padding: 0 12px;
+  background-color: v.$background-primary;
+  border-bottom: 1px solid v.$border-default;
+  height: 56px;
+  line-height: 56px;
+  padding: 0 v.$space-5;
+  position: sticky;
+  top: 0;
+  z-index: v.$z-sticky;
 
   ul {
     display: flex;
@@ -14,15 +16,113 @@ nav {
     margin: 0;
     padding: 0;
     justify-content: space-between;
+    align-items: center;
+    max-width: 1280px;
+    margin: 0 auto;
+
+    .logo {
+      a {
+        font-size: v.$font-size-xl;
+        font-weight: v.$font-weight-bold;
+        color: v.$primary;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: v.$space-2;
+
+        &:hover {
+          color: v.$primary-dark;
+          text-decoration: none;
+        }
+
+        &::before {
+          content: '';
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          background: v.$primary;
+          border-radius: v.$radius-sm;
+        }
+      }
+    }
 
     .menu-items {
       display: flex;
       align-items: center;
-      gap: 16px;
-    }
+      gap: v.$space-1;
 
-    a {
-      @include t.kb-link;
+      a {
+        color: v.$text-secondary;
+        text-decoration: none;
+        padding: 6px v.$space-3;
+        border-radius: v.$radius-md;
+        font-size: v.$font-size-sm;
+        font-weight: v.$font-weight-medium;
+        transition: all v.$transition-fast;
+        cursor: pointer;
+
+        &:hover {
+          color: v.$text-primary;
+          background: v.$background-secondary;
+          text-decoration: none;
+        }
+
+        &.active {
+          color: v.$text-primary;
+          background: v.$background-secondary;
+          font-weight: v.$font-weight-semibold;
+        }
+
+        &.sign-out {
+          color: v.$text-tertiary;
+          margin-left: v.$space-2;
+          border-left: 1px solid v.$border-default;
+          padding-left: v.$space-4;
+
+          &:hover {
+            color: v.$error;
+            background: v.$error-50;
+          }
+        }
+
+        &.btn-register {
+          background: v.$primary;
+          color: v.$text-inverse;
+          margin-left: v.$space-2;
+
+          &:hover {
+            background: v.$primary-dark;
+          }
+
+          &.active {
+            background: v.$primary-dark;
+            color: v.$text-inverse;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  nav {
+    padding: 0 v.$space-4;
+
+    ul {
+      .menu-items {
+        gap: 0;
+
+        a {
+          padding: 6px v.$space-2;
+          font-size: v.$font-size-xs;
+
+          &.sign-out {
+            padding-left: v.$space-2;
+            margin-left: v.$space-1;
+          }
+        }
+      }
     }
   }
 }

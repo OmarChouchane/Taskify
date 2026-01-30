@@ -1,0 +1,61 @@
+<div class="organizations-container">
+  <div class="page-header">
+    <h1>My Organizations</h1>
+    <button class="btn btn-primary" (click)="openCreateModal()">
+      + Create Organization
+    </button>
+  </div>
+
+  <div class="organizations-grid" *ngIf="!loading">
+    <div
+      class="org-card"
+      *ngFor="let org of organizations"
+      [routerLink]="['/organizations', org.id]"
+    >
+      <h3>{{ org.name }}</h3>
+      <p class="description">{{ org.description || 'No description' }}</p>
+      <div class="meta">
+        <span>{{ org.members?.length || 0 }} members</span>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="organizations.length === 0">
+      <p>You don't have any organizations yet.</p>
+      <button class="btn btn-primary" (click)="openCreateModal()">
+        Create your first organization
+      </button>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <span>Loading organizations...</span>
+  </div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal-overlay" *ngIf="showCreateModal" (click)="closeCreateModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>Create Organization</h2>
+    <div class="form-group">
+      <label>Name</label>
+      <input
+        type="text"
+        [(ngModel)]="newOrgName"
+        placeholder="Organization name"
+      />
+    </div>
+    <div class="form-group">
+      <label>Description (optional)</label>
+      <textarea
+        [(ngModel)]="newOrgDescription"
+        placeholder="Organization description"
+        rows="3"
+      ></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" (click)="closeCreateModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="createOrganization()">Create</button>
+    </div>
+  </div>
+</div>

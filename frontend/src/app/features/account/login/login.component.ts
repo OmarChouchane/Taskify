@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ReactiveFormsModule,
   NonNullableFormBuilder,
@@ -6,8 +7,8 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { Router, RouterModule } from '@angular/router';
-import { ILogin, ILoginReponse } from '../../../shared/models/user.model';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
+import { ILogin } from '../../../shared/models/user.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { UserService } from '../../../shared/services/user.service';
 
@@ -18,11 +19,16 @@ import { UserService } from '../../../shared/services/user.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private readonly userService = inject(UserService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
   fb = inject(NonNullableFormBuilder);
+
+  private redirectUrl = '/organizations';
+
   loginForm = this.fb.group({
     email: this.fb.control('', [Validators.required, Validators.email]),
     password: this.fb.control('', [
@@ -31,16 +37,24 @@ export class LoginComponent {
     ]),
   });
 
+  ngOnInit() {
+    this.route.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(params => {
+        if (params['redirect']) {
+          this.redirectUrl = params['redirect'];
+        }
+      });
+  }
+
   login() {
     if (this.loginForm.invalid) {
       return;
     }
 
-    this.userService
-      .login(this.loginForm.value as ILogin)
-      .subscribe((token: ILoginReponse) => {
-        this.authService.token = token.accessToken;
-        this.router.navigateByUrl('/boards');
-      });
+    this.userService.login(this.loginForm.value as ILogin).subscribe(() => {
+      this.authService.setAuthenticated(true);
+      this.router.navigateByUrl(this.redirectUrl);
+    });
   }
 }

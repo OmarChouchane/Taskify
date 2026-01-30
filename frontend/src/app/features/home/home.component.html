@@ -1,0 +1,73 @@
+<main class="home">
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="title-line">Organize your work</span>
+        <span class="title-line"><span class="highlight">with Taskify</span></span>
+      </h1>
+      <p class="hero-subtitle">
+        The modern project management tool that helps teams collaborate,
+        track progress, and deliver results faster.
+      </p>
+      <div class="hero-actions">
+        @if (isLoggedIn()) {
+          <a routerLink="/organizations" class="btn-hero-primary">My Organizations</a>
+          <a routerLink="/boards" class="btn-hero-secondary">All Boards</a>
+        } @else {
+          <a routerLink="/register" class="btn-hero-primary">Get Started Free</a>
+          <a routerLink="/login" class="btn-hero-secondary">Sign In</a>
+        }
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="floating-cards">
+        <div class="card-preview card-1">
+          <div class="card-header"></div>
+          <div class="card-lines">
+            <div class="line"></div>
+            <div class="line short"></div>
+          </div>
+        </div>
+        <div class="card-preview card-2">
+          <div class="card-header"></div>
+          <div class="card-lines">
+            <div class="line"></div>
+            <div class="line short"></div>
+          </div>
+        </div>
+        <div class="card-preview card-3">
+          <div class="card-header"></div>
+          <div class="card-lines">
+            <div class="line"></div>
+            <div class="line short"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2 class="section-title">Everything you need to succeed</h2>
+    <div class="features-grid">
+      @for (feature of features; track feature.title) {
+        <div class="feature-card">
+          <div class="feature-icon">{{ feature.icon }}</div>
+          <h3>{{ feature.title }}</h3>
+          <p>{{ feature.description }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="cta-content">
+      <h2>Ready to get started?</h2>
+      <p>Join thousands of teams already using Taskify</p>
+      @if (isLoggedIn()) {
+        <a routerLink="/organizations" class="btn-cta">Open Dashboard</a>
+      } @else {
+        <a routerLink="/register" class="btn-cta">Create Free Account</a>
+      }
+    </div>
+  </section>
+</main>

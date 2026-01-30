@@ -12,11 +12,14 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
+      "@common/*": ["src/common/*"],
       "@user/*": ["src/user/*"],
       "@board/*": ["src/board/*"],
       "@card/*": ["src/card/*"],
       "@auth/*": ["src/auth/*"],
-      "@swimlane/*": ["src/swimlane/*"]
+      "@swimlane/*": ["src/swimlane/*"],
+      "@organization/*": ["src/organization/*"],
+      "@invitation/*": ["src/invitation/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
