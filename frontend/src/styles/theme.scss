@@ -1,0 +1,261 @@
+// ============================================
+// Custom Angular Material Theme
+// GitHub + Atlassian Inspired
+// ============================================
+
+@use '@angular/material' as mat;
+@use 'variables' as v;
+
+// Include core styles
+@include mat.core();
+
+// Define custom palettes
+$taskify-primary-palette: (
+  50: #e3f2fd,
+  100: #bbdefb,
+  200: #90caf9,
+  300: #64b5f6,
+  400: #42a5f5,
+  500: #0052cc,
+  600: #0747a6,
+  700: #003d99,
+  800: #002d6e,
+  900: #001d4a,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: rgba(0, 0, 0, 0.87),
+    400: rgba(0, 0, 0, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+$taskify-accent-palette: (
+  50: #e6ffec,
+  100: #b4f1c1,
+  200: #7ee89d,
+  300: #4ed879,
+  400: #2dc65b,
+  500: #238636,
+  600: #1a7f37,
+  700: #116329,
+  800: #044f1e,
+  900: #003d16,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: rgba(0, 0, 0, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+$taskify-warn-palette: (
+  50: #ffebe6,
+  100: #ffbdad,
+  200: #ff8f73,
+  300: #ff7452,
+  400: #ff5630,
+  500: #de350b,
+  600: #bf2600,
+  700: #a31b00,
+  800: #870f00,
+  900: #6b0500,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: rgba(0, 0, 0, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+// Create theme palettes
+$taskify-primary: mat.define-palette($taskify-primary-palette);
+$taskify-accent: mat.define-palette($taskify-accent-palette);
+$taskify-warn: mat.define-palette($taskify-warn-palette);
+
+// Define the light theme
+$taskify-light-theme: mat.define-light-theme((
+  color: (
+    primary: $taskify-primary,
+    accent: $taskify-accent,
+    warn: $taskify-warn,
+  ),
+  typography: mat.define-typography-config(
+    $font-family: v.$font-family-sans,
+  ),
+  density: 0,
+));
+
+// Apply the theme
+@include mat.all-component-themes($taskify-light-theme);
+
+// ============================================
+// Custom Material Component Overrides
+// ============================================
+
+// Buttons - GitHub style
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-flat-button {
+  border-radius: v.$radius-md !important;
+  font-weight: v.$font-weight-medium;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-flat-button.mat-primary {
+  --mdc-filled-button-container-color: #{v.$primary};
+
+  &:hover {
+    --mdc-filled-button-container-color: #{v.$primary-dark};
+  }
+}
+
+.mat-mdc-outlined-button {
+  border-color: v.$border-default !important;
+
+  &:hover {
+    background-color: v.$gray-50;
+  }
+}
+
+// Cards - Clean, subtle borders
+.mat-mdc-card {
+  border-radius: v.$radius-md !important;
+  box-shadow: v.$shadow-sm !important;
+  border: 1px solid v.$border-default;
+
+  &:hover {
+    box-shadow: v.$shadow-md !important;
+  }
+}
+
+.mat-mdc-card-title {
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-semibold;
+  color: v.$text-primary;
+}
+
+// Form fields - GitHub style
+.mat-mdc-form-field {
+  .mdc-text-field--outlined {
+    --mdc-outlined-text-field-outline-color: #{v.$border-default};
+    --mdc-outlined-text-field-hover-outline-color: #{v.$border-emphasis};
+    --mdc-outlined-text-field-focus-outline-color: #{v.$primary};
+
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-radius: v.$radius-md;
+    }
+  }
+}
+
+// Tabs - Atlassian style
+.mat-mdc-tab-group {
+  .mat-mdc-tab {
+    font-weight: v.$font-weight-medium;
+    letter-spacing: normal;
+
+    &.mdc-tab--active {
+      color: v.$primary;
+    }
+  }
+
+  .mat-mdc-tab-header {
+    border-bottom: 1px solid v.$border-default;
+  }
+}
+
+// Dialogs
+.mat-mdc-dialog-container {
+  border-radius: v.$radius-lg !important;
+
+  .mat-mdc-dialog-title {
+    font-size: v.$font-size-xl;
+    font-weight: v.$font-weight-semibold;
+    color: v.$text-primary;
+    padding: v.$space-5 v.$space-5 v.$space-3;
+  }
+
+  .mat-mdc-dialog-content {
+    padding: v.$space-3 v.$space-5;
+  }
+
+  .mat-mdc-dialog-actions {
+    padding: v.$space-3 v.$space-5 v.$space-5;
+    gap: v.$space-2;
+  }
+}
+
+// Menus
+.mat-mdc-menu-panel {
+  border-radius: v.$radius-md !important;
+  border: 1px solid v.$border-default;
+  box-shadow: v.$shadow-lg !important;
+
+  .mat-mdc-menu-item {
+    font-size: v.$font-size-sm;
+
+    &:hover {
+      background-color: v.$gray-50;
+    }
+  }
+}
+
+// Chips / Badges
+.mat-mdc-chip {
+  border-radius: v.$radius-full !important;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-medium;
+}
+
+// Toolbar
+.mat-toolbar {
+  background: v.$background-primary;
+  border-bottom: 1px solid v.$border-default;
+
+  &.mat-primary {
+    background: v.$primary;
+    border-bottom: none;
+  }
+}
+
+// Icons
+.mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+// Snackbar / Toast
+.mat-mdc-snack-bar-container {
+  border-radius: v.$radius-md !important;
+
+  &.success-snackbar {
+    --mdc-snackbar-container-color: #{v.$success};
+  }
+
+  &.error-snackbar {
+    --mdc-snackbar-container-color: #{v.$error};
+  }
+}

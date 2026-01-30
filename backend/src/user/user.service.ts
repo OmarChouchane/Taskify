@@ -1,66 +1,32 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { RegisterDto } from 'src/auth/dto/register.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
+import { HashService } from '@common/common.module';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private hashService: HashService,
   ) {}
 
-  create(createUserDto: RegisterDto) {
-    const user = new User();
-    user.email = createUserDto.email;
-    user.firstName = createUserDto.firstName;
-    user.lastName = createUserDto.lastName;
-    user.password = createUserDto.password;
+  async create(createUserDto: CreateUserDto) {
+    const hashedPassword = await this.hashService.hash(createUserDto.password);
+    const user = this.userRepository.create({
+      email: createUserDto.email.toLowerCase(),
+      firstName: createUserDto.firstName,
+      lastName: createUserDto.lastName,
+      password: hashedPassword,
+    });
     return this.userRepository.save(user);
   }
 
   findOne(id: number) {
     return this.userRepository.findOneBy({ id });
-  }
-
-  async isConnectedToBoard(id: number, boardId: number) {
-    const user = await this.userRepository.findOne({
-      where: {
-        id,
-        boards: {
-          id: boardId,
-        },
-      },
-      relations: ['boards'],
-    });
-
-    if (!user) {
-      throw new UnauthorizedException('You are not a part of this board.');
-    }
-
-    return true;
-  }
-
-  async isConnectedToSwimlane(id: number, swimlaneId: number) {
-    const user = await this.userRepository.findOne({
-      where: {
-        id,
-        boards: {
-          swimlanes: {
-            id: swimlaneId,
-          },
-        },
-      },
-      relations: ['boards', 'boards.swimlanes'],
-    });
-
-    if (!user) {
-      throw new UnauthorizedException('You are not a part of this board.');
-    }
-
-    return true;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

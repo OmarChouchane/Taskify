@@ -1,0 +1,469 @@
+@use "variables" as v;
+
+.org-detail-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: v.$space-5;
+}
+
+// Breadcrumb
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+  margin-bottom: v.$space-5;
+  font-size: v.$font-size-sm;
+
+  a {
+    color: v.$text-link;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .separator {
+    color: v.$text-tertiary;
+  }
+
+  .current {
+    color: v.$text-primary;
+    font-weight: v.$font-weight-medium;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: v.$space-5;
+  padding-bottom: v.$space-5;
+  border-bottom: 1px solid v.$border-default;
+
+  .title-section {
+    h1 {
+      margin: 0 0 v.$space-2;
+      color: v.$text-primary;
+      font-size: v.$font-size-2xl;
+    }
+
+    .description {
+      color: v.$text-secondary;
+      margin: 0;
+      font-size: v.$font-size-sm;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: v.$space-2;
+  }
+}
+
+.role-section {
+  margin-bottom: v.$space-5;
+}
+
+.role-card {
+  background: v.$background-primary;
+  border: 1px solid v.$border-default;
+  border-radius: v.$radius-md;
+  padding: v.$space-4;
+}
+
+.role-header {
+  display: flex;
+  align-items: center;
+  gap: v.$space-3;
+  margin-bottom: v.$space-3;
+
+  .role-label {
+    font-size: v.$font-size-xs;
+    color: v.$text-tertiary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: v.$font-weight-medium;
+  }
+}
+
+.permissions {
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: v.$space-2;
+  }
+}
+
+.permission-item {
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+  padding: v.$space-2 v.$space-3;
+  background: v.$background-secondary;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-sm;
+  color: v.$text-tertiary;
+
+  .icon {
+    font-weight: v.$font-weight-bold;
+    color: v.$error;
+  }
+
+  &.allowed {
+    color: v.$text-primary;
+
+    .icon {
+      color: v.$success;
+    }
+  }
+}
+
+// Boards Section
+.boards-section {
+  margin-bottom: v.$space-6;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: v.$space-4;
+
+  h2 {
+    margin: 0;
+    color: v.$text-primary;
+    font-size: v.$font-size-lg;
+    font-weight: v.$font-weight-semibold;
+  }
+}
+
+.boards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: v.$space-4;
+}
+
+.board-card {
+  display: flex;
+  flex-direction: column;
+  background: v.$background-primary;
+  border: 1px solid v.$border-default;
+  border-radius: v.$radius-md;
+  padding: v.$space-4;
+  text-decoration: none;
+  transition: all v.$transition-normal;
+
+  &:hover {
+    border-color: v.$primary;
+    box-shadow: v.$shadow-md;
+    text-decoration: none;
+  }
+
+  .board-card-header {
+    display: flex;
+    align-items: center;
+    gap: v.$space-3;
+    margin-bottom: v.$space-3;
+
+    .board-icon {
+      width: 32px;
+      height: 32px;
+      background: v.$primary;
+      border-radius: v.$radius-sm;
+    }
+
+    h3 {
+      margin: 0;
+      color: v.$text-primary;
+      font-size: v.$font-size-md;
+      font-weight: v.$font-weight-medium;
+    }
+  }
+
+  .board-card-footer {
+    display: flex;
+    align-items: center;
+    gap: v.$space-2;
+
+    .org-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: v.$space-1 v.$space-2;
+      background: v.$primary-light;
+      color: v.$primary-dark;
+      font-size: v.$font-size-xs;
+      font-weight: v.$font-weight-medium;
+      border-radius: v.$radius-full;
+    }
+
+    .swimlane-count {
+      font-size: v.$font-size-sm;
+      color: v.$text-tertiary;
+    }
+  }
+}
+
+.empty-state-sm {
+  padding: v.$space-6;
+  text-align: center;
+  background: v.$background-primary;
+  border: 1px dashed v.$border-default;
+  border-radius: v.$radius-md;
+
+  p {
+    margin: 0;
+    color: v.$text-secondary;
+  }
+}
+
+// Members Section
+.members-section,
+.invitations-section {
+  margin-bottom: v.$space-5;
+}
+
+.members-list,
+.invitations-list {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-3;
+}
+
+.member-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: v.$space-4;
+  background: v.$background-primary;
+  border: 1px solid v.$border-default;
+  border-radius: v.$radius-md;
+}
+
+.member-info {
+  display: flex;
+  align-items: center;
+  gap: v.$space-3;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: v.$radius-full;
+  background: v.$primary;
+  color: v.$text-inverse;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: v.$font-weight-semibold;
+  font-size: v.$font-size-sm;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+
+  .name {
+    font-weight: v.$font-weight-medium;
+    color: v.$text-primary;
+  }
+
+  .email {
+    font-size: v.$font-size-sm;
+    color: v.$text-secondary;
+  }
+}
+
+.member-actions {
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+
+  .role-select {
+    padding: v.$space-2 v.$space-3;
+    border: 1px solid v.$border-default;
+    border-radius: v.$radius-md;
+    background: v.$background-primary;
+    font-size: v.$font-size-sm;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: v.$primary;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+}
+
+.invitation-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: v.$space-4;
+  background: v.$warning-50;
+  border: 1px solid v.$warning-100;
+  border-radius: v.$radius-md;
+}
+
+.invitation-info {
+  display: flex;
+  align-items: center;
+  gap: v.$space-3;
+  flex-wrap: wrap;
+
+  .email {
+    font-weight: v.$font-weight-medium;
+    color: v.$text-primary;
+  }
+
+  .expires {
+    color: v.$text-secondary;
+    font-size: v.$font-size-sm;
+  }
+}
+
+.invitation-actions {
+  display: flex;
+  gap: v.$space-2;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: v.$space-10;
+  color: v.$text-secondary;
+  gap: v.$space-3;
+
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid v.$border-default;
+    border-top-color: v.$primary;
+    border-radius: v.$radius-full;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Modal styles
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: v.$z-modal;
+}
+
+.modal {
+  background: v.$background-primary;
+  border-radius: v.$radius-lg;
+  padding: v.$space-5;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: v.$shadow-xl;
+
+  h2 {
+    margin: 0 0 v.$space-5;
+    color: v.$text-primary;
+    font-size: v.$font-size-xl;
+  }
+}
+
+.form-group {
+  margin-bottom: v.$space-4;
+
+  label {
+    display: block;
+    margin-bottom: v.$space-2;
+    font-weight: v.$font-weight-medium;
+    color: v.$text-primary;
+    font-size: v.$font-size-sm;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: v.$space-3;
+    border: 1px solid v.$border-default;
+    border-radius: v.$radius-md;
+    font-size: v.$font-size-sm;
+    box-sizing: border-box;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: v.$primary;
+      box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.1);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  gap: v.$space-3;
+  justify-content: flex-end;
+  margin-top: v.$space-5;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .org-detail-container {
+    padding: v.$space-4;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: v.$space-3;
+
+    .actions {
+      width: 100%;
+      justify-content: flex-start;
+    }
+  }
+
+  .boards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .member-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: v.$space-3;
+  }
+
+  .member-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .invitation-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: v.$space-3;
+  }
+}

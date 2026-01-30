@@ -2,12 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { User } from "src/user/entities/user.entity";
-import { Swimlane } from "src/swimlane/entities/swimlane.entity";
+} from 'typeorm';
+import { Swimlane } from '@swimlane/entities/swimlane.entity';
+import { Organization } from '@organization/entities/organization.entity';
+import { BoardHistory } from './board-history.entity';
 
 @Entity()
 export class Board {
@@ -17,15 +18,18 @@ export class Board {
   @Column({ length: 100 })
   name: string;
 
-  @Column({ type: "text", nullable: true })
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToMany(() => User, (user) => user.boards)
-  users: User[];
+  @ManyToOne(() => Organization, (org) => org.boards, { nullable: false })
+  organization: Organization;
 
   @OneToMany(() => Swimlane, (swimlane) => swimlane.board)
   swimlanes: Swimlane[];
+
+  @OneToMany(() => BoardHistory, (history) => history.board)
+  histories: BoardHistory[];
 }

@@ -1,0 +1,81 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="profile-header">
+      <div class="avatar">
+        @if (user()) {
+          {{ user()!.firstName[0] }}{{ user()!.lastName[0] }}
+        }
+      </div>
+      <h1>My Profile</h1>
+    </div>
+
+    @if (error()) {
+      <div class="alert alert-error">{{ error() }}</div>
+    }
+
+    @if (success()) {
+      <div class="alert alert-success">{{ success() }}</div>
+    }
+
+    @if (user()) {
+      @if (isEditing()) {
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="profile-form">
+          <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" />
+          </mat-form-field>
+
+          <div class="form-actions">
+            <button mat-button type="button" (click)="cancelEditing()">Cancel</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="isSaving() || profileForm.invalid">
+              {{ isSaving() ? 'Saving...' : 'Save Changes' }}
+            </button>
+          </div>
+        </form>
+      } @else {
+        <div class="profile-info">
+          <div class="info-row">
+            <span class="label">First Name</span>
+            <span class="value">{{ user()!.firstName }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Last Name</span>
+            <span class="value">{{ user()!.lastName }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Email</span>
+            <span class="value">{{ user()!.email }}</span>
+          </div>
+
+          <button mat-raised-button color="primary" (click)="startEditing()">
+            Edit Profile
+          </button>
+        </div>
+      }
+    } @else {
+      <div class="loading">Loading profile...</div>
+    }
+  </div>
+
+  <div class="quick-links">
+    <h2>Quick Links</h2>
+    <a routerLink="/boards" class="link-card">
+      <span class="icon">📋</span>
+      <span>My Boards</span>
+    </a>
+    <a routerLink="/organizations" class="link-card">
+      <span class="icon">🏢</span>
+      <span>My Organizations</span>
+    </a>
+  </div>
+</div>

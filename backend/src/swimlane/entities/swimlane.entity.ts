@@ -1,9 +1,8 @@
-import { Board } from 'src/board/entities/board.entity';
-import { Card } from 'src/card/entities/card.entity';
+import { Board } from '@board/entities/board.entity';
+import { Card } from '@card/entities/card.entity';
 import {
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -20,11 +19,7 @@ export class Swimlane {
   @Column()
   order: number;
 
-  @Column()
-  boardId: number;
-
   @ManyToOne(() => Board, (board) => board.swimlanes)
-  @JoinColumn()
   board: Board;
 
   @OneToMany(() => Card, (card) => card.swimlane)

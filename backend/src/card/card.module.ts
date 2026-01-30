@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { CardService } from './card.service';
 import { CardController } from './card.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Card } from './entities/card.entity';
-import { SwimlaneModule } from 'src/swimlane/swimlane.module';
-import { UserModule } from 'src/user/user.module';
+import { Swimlane } from '@swimlane/entities/swimlane.entity';
+import { Board } from '@board/entities/board.entity';
+import { OrganizationMember } from '@organization/entities/organization-member.entity';
+import { AuthModule } from '@auth/auth.module';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([Card, Swimlane, Board, OrganizationMember]), AuthModule],
   controllers: [CardController],
   providers: [CardService],
-  imports: [TypeOrmModule.forFeature([Card]), SwimlaneModule, UserModule],
 })
 export class CardModule {}

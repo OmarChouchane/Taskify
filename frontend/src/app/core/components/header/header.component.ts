@@ -13,12 +13,10 @@ export class HeaderComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
-  get isLoggedIn() {
-    return this.authService.token;
-  }
+  isLoggedIn = this.authService.isAuthenticated();
 
   signOut() {
-    this.authService.token = '';
+    this.authService.logout();
     this.router.navigateByUrl('/login');
   }
 }
