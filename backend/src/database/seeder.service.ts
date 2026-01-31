@@ -7,6 +7,7 @@ import { Swimlane } from '@swimlane/entities/swimlane.entity';
 import { Card } from '@card/entities/card.entity';
 import { Organization } from '@organization/entities/organization.entity';
 import { OrganizationMember } from '@organization/entities/organization-member.entity';
+import { Invitation } from '@invitation/entities/invitation.entity';
 import { HashService } from '@common/common.module';
 import { Role } from '@common/common.module';
 
@@ -25,6 +26,8 @@ export class SeederService {
     private organizationRepository: Repository<Organization>,
     @InjectRepository(OrganizationMember)
     private organizationMemberRepository: Repository<OrganizationMember>,
+    @InjectRepository(Invitation)
+    private invitationRepository: Repository<Invitation>,
     private hashService: HashService,
   ) {}
 
@@ -261,12 +264,13 @@ export class SeederService {
   async clear() {
     console.log('Clearing database...');
 
-    await this.cardRepository.delete({});
-    await this.swimlaneRepository.delete({});
-    await this.boardRepository.delete({});
-    await this.organizationMemberRepository.delete({});
-    await this.organizationRepository.delete({});
-    await this.userRepository.delete({});
+    await this.cardRepository.createQueryBuilder().delete().execute();
+    await this.swimlaneRepository.createQueryBuilder().delete().execute();
+    await this.boardRepository.createQueryBuilder().delete().execute();
+    await this.invitationRepository.createQueryBuilder().delete().execute();
+    await this.organizationMemberRepository.createQueryBuilder().delete().execute();
+    await this.organizationRepository.createQueryBuilder().delete().execute();
+    await this.userRepository.createQueryBuilder().delete().execute();
 
     console.log('Database cleared!');
   }

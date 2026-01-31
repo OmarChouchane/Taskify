@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { IBoard, ICreateBoard } from '../models/board.model';
 
 export interface ReordereSwimlaneDto {
@@ -37,6 +37,8 @@ export class BoardService {
     return this.http.get<IBoard[]>('/api/board');
   }
   getMyRole(boardId: number): Observable<string | null> {
-    return this.http.get<string | null>(`/api/board/${boardId}/my-role`);
+    return this.http.get<{ role: string | null }>(`/api/board/${boardId}/my-role`).pipe(
+      map(response => response.role)
+    );
   }
 }

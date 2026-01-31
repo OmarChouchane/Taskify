@@ -2,7 +2,7 @@
   <div class="profile-card">
     <div class="profile-header">
       <div class="avatar">
-        @if (user()) {
+        @if (user()?.firstName && user()?.lastName) {
           {{ user()!.firstName[0] }}{{ user()!.lastName[0] }}
         }
       </div>
@@ -65,17 +65,5 @@
     } @else {
       <div class="loading">Loading profile...</div>
     }
-  </div>
-
-  <div class="quick-links">
-    <h2>Quick Links</h2>
-    <a routerLink="/boards" class="link-card">
-      <span class="icon">📋</span>
-      <span>My Boards</span>
-    </a>
-    <a routerLink="/organizations" class="link-card">
-      <span class="icon">🏢</span>
-      <span>My Organizations</span>
-    </a>
   </div>
 </div>

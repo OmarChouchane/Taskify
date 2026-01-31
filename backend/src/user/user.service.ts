@@ -29,11 +29,13 @@ export class UserService {
     return this.userRepository.findOneBy({ id });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return this.userRepository.update(id, {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    await this.userRepository.update(id, {
       firstName: updateUserDto.firstName,
       lastName: updateUserDto.lastName,
+      email: updateUserDto.email?.toLowerCase(),
     });
+    return this.findOne(id);
   }
 
   remove(id: number) {
