@@ -59,7 +59,8 @@ export class BoardController {
   @Get(':id/my-role')
   @UseGuards(RolesGuard)
   @Roles(Role.VIEWER)
-  getMyRole(@Param('id') id: string, @Request() req: PayloadRequest) {
-    return this.boardService.getUserRole(+id, req.user.id);
+  async getMyRole(@Param('id') id: string, @Request() req: PayloadRequest) {
+    const role = await this.boardService.getUserRole(+id, req.user.id);
+    return { role };
   }
 }

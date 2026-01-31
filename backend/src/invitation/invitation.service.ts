@@ -52,20 +52,21 @@ export class InvitationService {
       throw new ForbiddenException('Only admins can send invitations');
     }
 
-    // Normalize email to lowercase
     const normalizedEmail = dto.email.toLowerCase();
 
     const targetUser = await this.userRepository.findOne({ where: { email: normalizedEmail } });
-    if (targetUser) {
-      const existingMember = await this.memberRepository.findOne({
-        where: {
-          organization: { id: dto.organizationId },
-          user: { id: targetUser.id },
-        },
-      });
-      if (existingMember) {
-        throw new BadRequestException('User is already a member of this organization');
-      }
+    if (!targetUser) {
+      throw new BadRequestException('User with this email does not exist. They must register first.');
+    }
+
+    const existingMember = await this.memberRepository.findOne({
+      where: {
+        organization: { id: dto.organizationId },
+        user: { id: targetUser.id },
+      },
+    });
+    if (existingMember) {
+      throw new BadRequestException('User is already a member of this organization');
     }
 
     const existingInvite = await this.invitationRepository.findOne({

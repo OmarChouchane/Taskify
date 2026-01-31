@@ -5,10 +5,34 @@
     </li>
     <li class="menu-items">
       @if(isLoggedIn()){
-        <a [routerLinkActive]="'active'" routerLink="/boards">Boards</a>
         <a [routerLinkActive]="'active'" routerLink="/organizations">Organizations</a>
-        <a [routerLinkActive]="'active'" routerLink="/profile">Profile</a>
-        <a class="sign-out" (click)="signOut()">Sign out</a>
+        <div class="profile-menu-container">
+          <button class="profile-icon" (click)="toggleProfileMenu()" [class.active]="showProfileMenu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </button>
+          @if(showProfileMenu) {
+            <div class="profile-dropdown">
+              <a routerLink="/profile" (click)="showProfileMenu = false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                Profile
+              </a>
+              <a (click)="signOut()" class="logout">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Logout
+              </a>
+            </div>
+          }
+        </div>
       } @else {
         <a [routerLinkActive]="'active'" routerLink="/login">Login</a>
         <a [routerLinkActive]="'active'" routerLink="/register" class="btn-register">Register</a>

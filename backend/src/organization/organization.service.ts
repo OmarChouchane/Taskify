@@ -47,14 +47,23 @@ export class OrganizationService {
   }
 
   async findAll(userId: number) {
-    return this.organizationRepository.find({
-      where: {
-        members: {
-          user: { id: userId },
-        },
-      },
-      relations: ['members', 'members.user'],
+    const userMemberships = await this.memberRepository.find({
+      where: { user: { id: userId } },
+      relations: ['organization'],
     });
+
+    const orgIds = userMemberships.map((m) => m.organization.id);
+
+    if (orgIds.length === 0) {
+      return [];
+    }
+
+    return this.organizationRepository
+      .createQueryBuilder('org')
+      .leftJoinAndSelect('org.members', 'members')
+      .leftJoinAndSelect('members.user', 'user')
+      .whereInIds(orgIds)
+      .getMany();
   }
 
   async findOne(id: number) {

@@ -73,18 +73,6 @@ nav {
           font-weight: v.$font-weight-semibold;
         }
 
-        &.sign-out {
-          color: v.$text-tertiary;
-          margin-left: v.$space-2;
-          border-left: 1px solid v.$border-default;
-          padding-left: v.$space-4;
-
-          &:hover {
-            color: v.$error;
-            background: v.$error-50;
-          }
-        }
-
         &.btn-register {
           background: v.$primary;
           color: v.$text-inverse;
@@ -97,6 +85,80 @@ nav {
           &.active {
             background: v.$primary-dark;
             color: v.$text-inverse;
+          }
+        }
+      }
+
+      .profile-menu-container {
+        position: relative;
+        margin-left: v.$space-2;
+        line-height: normal;
+
+        .profile-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: none;
+          background: v.$background-secondary;
+          color: v.$text-secondary;
+          cursor: pointer;
+          transition: all v.$transition-fast;
+
+          &:hover, &.active {
+            background: v.$primary;
+            color: v.$text-inverse;
+          }
+        }
+
+        .profile-dropdown {
+          position: absolute;
+          top: calc(100% + 8px);
+          right: 0;
+          background: v.$background-primary;
+          border: 1px solid v.$border-default;
+          border-radius: v.$radius-md;
+          box-shadow: v.$shadow-lg;
+          min-width: 160px;
+          z-index: v.$z-dropdown;
+          overflow: hidden;
+
+          a {
+            display: flex;
+            align-items: center;
+            gap: v.$space-2;
+            padding: v.$space-3 v.$space-4;
+            color: v.$text-primary;
+            font-size: v.$font-size-sm;
+            border-radius: 0;
+
+            svg {
+              color: v.$text-tertiary;
+            }
+
+            &:hover {
+              background: v.$background-secondary;
+
+              svg {
+                color: v.$text-primary;
+              }
+            }
+
+            &.logout {
+              border-top: 1px solid v.$border-default;
+              color: v.$text-tertiary;
+
+              &:hover {
+                background: v.$error-50;
+                color: v.$error;
+
+                svg {
+                  color: v.$error;
+                }
+              }
+            }
           }
         }
       }
@@ -116,11 +178,6 @@ nav {
         a {
           padding: 6px v.$space-2;
           font-size: v.$font-size-xs;
-
-          &.sign-out {
-            padding-left: v.$space-2;
-            margin-left: v.$space-1;
-          }
         }
       }
     }

@@ -23,6 +23,7 @@ export class InvitationAcceptComponent implements OnInit {
   error: string | null = null;
   accepting = false;
   isLoggedIn = false;
+  private autoAccept = false;
 
   constructor() {
     // React to auth state changes
@@ -32,6 +33,11 @@ export class InvitationAcceptComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Check if user came from login redirect (auto-accept flow)
+    this.route.queryParams.subscribe(params => {
+      this.autoAccept = params['autoAccept'] === 'true';
+    });
+
     // Wait for auth check to complete before loading invitation
     this.authService.waitForAuthCheck().subscribe((authenticated) => {
       this.isLoggedIn = authenticated;
@@ -52,6 +58,9 @@ export class InvitationAcceptComponent implements OnInit {
           this.error = 'This invitation has already been used.';
         } else if (new Date(invitation.expiresAt) < new Date()) {
           this.error = 'This invitation has expired.';
+        } else if (this.isLoggedIn && this.autoAccept) {
+          // Auto-accept if user just logged in and returned from redirect
+          this.acceptInvitation();
         }
       },
       error: () => {
@@ -79,7 +88,7 @@ export class InvitationAcceptComponent implements OnInit {
   goToLogin() {
     const code = this.route.snapshot.paramMap.get('code');
     this.router.navigate(['/login'], {
-      queryParams: { redirect: `/invitation/${code}` },
+      queryParams: { redirect: `/invitation/${code}?autoAccept=true` },
     });
   }
 }
